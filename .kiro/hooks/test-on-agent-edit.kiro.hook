@@ -1,0 +1,21 @@
+{
+  "enabled": true,
+  "name": "Run Tests on Agent Edit",
+  "description": "Automatically runs the test suite when any agent TypeScript file is saved, ensuring regressions are caught immediately.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "src/agents/*.ts",
+      "src/bus/*.ts",
+      "src/registry/*.ts",
+      "src/config/*.ts",
+      "src/log/*.ts",
+      "src/privacy/*.ts"
+    ]
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "npx vitest run --reporter=verbose"
+  }
+}

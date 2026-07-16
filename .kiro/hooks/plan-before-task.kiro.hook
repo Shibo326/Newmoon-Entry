@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Plan Before Task",
+  "description": "Before executing a spec task, reviews the task requirements and the current state of related agent files to plan the implementation approach.",
+  "version": "1",
+  "when": {
+    "type": "preTaskExecution"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Before starting this task, review: 1) The task requirements from the spec, 2) Which agent files are affected, 3) The current Agent interface contract in src/types/agent.ts, 4) Any existing tests that need updating. Outline a brief plan of what files to create/modify and what the key implementation decisions are. Then proceed with implementation."
+  }
+}

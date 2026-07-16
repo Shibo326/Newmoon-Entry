@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "TypeCheck After Task",
+  "description": "Runs TypeScript type-checking after any agent task is completed to ensure type safety across the codebase.",
+  "version": "1",
+  "when": {
+    "type": "postTaskExecution"
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "npx tsc --noEmit"
+  }
+}

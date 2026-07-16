@@ -122,8 +122,8 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - **Property 30: Adaptation Log Query Filtering** — Generate random log entries × query filters, verify exact match results and max 500 limit
     - **Validates: Requirements 11.3, 11.5, 11.7, 11.8, 12.4**
 
-- [ ] 6. Implement Wallet Agent
-  - [-] 6.1 Implement Wallet Agent with connection, session, and disconnect handling
+- [x] 6. Implement Wallet Agent
+  - [x] 6.1 Implement Wallet Agent with connection, session, and disconnect handling
     - Create `src/agents/wallet-agent.ts` implementing `Agent` interface
     - Implement "connect" handler: initiate Lace Wallet connection, emit "wallet.connected" within 30s or "wallet.connection_failed"
     - Implement "validate-session" handler: verify active connection, return wallet address or session error
@@ -139,8 +139,8 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Test session persistence and auto-reconnect
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6_
 
-- [ ] 7. Implement Signal Agent
-  - [-] 7.1 Implement Signal Agent with normalization and validation
+- [x] 7. Implement Signal Agent
+  - [x] 7.1 Implement Signal Agent with normalization and validation
     - Create `src/agents/signal-agent.ts` implementing `Agent` interface
     - Implement "read-signals" handler: invoke Compact Witness, produce 6-value normalized vector in [0.0, 1.0]
     - Apply normalization parameters from Behavior Profile
@@ -154,8 +154,8 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - **Property 12: Signal Normalization** — Generate random raw signals × availability patterns, verify exactly 6 values in [0.0, 1.0], default 0.5 with estimated flag for unavailable signals
     - **Validates: Requirements 5.1, 5.2, 5.4**
 
-- [ ] 8. Implement Scoring Agent
-  - [-] 8.1 Implement Scoring Agent with Groq integration and validation
+- [x] 8. Implement Scoring Agent
+  - [x] 8.1 Implement Scoring Agent with Groq integration and validation
     - Create `src/agents/scoring-agent.ts` implementing `Agent` interface
     - Implement "compute-grade" handler: invoke Groq API (Llama 3.3 70B) with temperature=0
     - Return Credit Grade from {AAA, AA, A, BBB, BB, C} with 6-entry reasoning breakdown (direction + weight)
@@ -170,8 +170,8 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - **Property 14: Scoring Determinism** — Generate random vectors, invoke multiple times with same profile, verify identical output
     - **Validates: Requirements 6.1, 6.5, 6.6**
 
-- [ ] 9. Implement Credential Agent
-  - [-] 9.1 Implement Credential Agent with minting, revocation, and retry logic
+- [x] 9. Implement Credential Agent
+  - [x] 9.1 Implement Credential Agent with minting, revocation, and retry logic
     - Create `src/agents/credential-agent.ts` implementing `Agent` interface
     - Implement "mint-credential" handler: invoke Compact Contract to mint ZK Credential NFT
     - Validate request fields (wallet address, Credit Grade, signal vector hash) before contract call
@@ -187,8 +187,8 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - **Property 16: Credential Revocation Before Re-Mint** — Generate random credential states × failure patterns, verify revocation-first logic and abort on failure
     - **Validates: Requirements 7.2, 7.7**
 
-- [ ] 10. Implement Verification Agent
-  - [-] 10.1 Implement Verification Agent with threshold logic, privacy, and input validation
+- [x] 10. Implement Verification Agent
+  - [x] 10.1 Implement Verification Agent with threshold logic, privacy, and input validation
     - Create `src/agents/verification-agent.ts` implementing `Agent` interface
     - Implement "verify-threshold" handler: invoke Compact Contract, return boolean based on grade ordering (AAA=5 > AA=4 > A=3 > BBB=2 > BB=1 > C=0)
     - Disclose only boolean result — never actual grade or signals
@@ -205,8 +205,8 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - **Property 19: Verification Privacy** — Generate random queries, inspect response and event fields for absence of grade/signals/wallet info
     - **Validates: Requirements 8.1, 8.2, 8.3, 8.5, 8.6, 8.8**
 
-- [ ] 11. Implement Cache Agent
-  - [~] 11.1 Implement Cache Agent with TTL, graceful degradation, and RLS
+- [x] 11. Implement Cache Agent
+  - [x] 11.1 Implement Cache Agent with TTL, graceful degradation, and RLS
     - Create `src/agents/cache-agent.ts` implementing `Agent` interface
     - Implement "check-cache" handler: query Supabase, return cached grade+reasoning if valid (matching hash, within TTL)
     - Return cache-miss with wallet address and hash when no valid entry
@@ -223,11 +223,11 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - **Property 21: Cache Graceful Degradation** — Generate random failure patterns after retry exhaustion, verify non-halting response and event publication
     - **Validates: Requirements 9.1, 9.2, 9.5**
 
-- [~] 12. Checkpoint - All individual agents implemented
+- [x] 12. Checkpoint - All individual agents implemented
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 13. Implement Monitor Agent
-  - [~] 13.1 Implement Monitor Agent with metrics, alerting, and health determination
+- [x] 13. Implement Monitor Agent
+  - [x] 13.1 Implement Monitor Agent with metrics, alerting, and health determination
     - Create `src/agents/monitor-agent.ts` implementing `Agent` interface and `MonitorMetrics` interface
     - Subscribe to all Message Bus events, record type/source/timestamp/duration in Adaptation Log
     - Compute per-agent metrics (request count, avg response time, error count, lifecycle state) updated every 10 seconds
@@ -238,7 +238,7 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Buffer up to 500 entries when Adaptation Log unavailable, publish "monitor.log-unavailable" event
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.6, 10.7_
 
-  - [~] 13.2 Implement config regression detection and baseline/comparison snapshots
+  - [x] 13.2 Implement config regression detection and baseline/comparison snapshots
     - Record baseline metrics snapshot within 5 seconds before profile change
     - Record comparison snapshot 1 hour after change (average of final 5 minutes)
     - Handle nested changes: close prior window, start new baseline
@@ -253,8 +253,8 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - **Property 27: Config Regression Detection** — Generate random config changes × error rate patterns, verify regression alert with correct details
     - **Validates: Requirements 10.3, 10.5, 11.6**
 
-- [ ] 14. Implement Orchestrator Agent
-  - [~] 14.1 Implement Orchestrator Agent pipeline execution
+- [x] 14. Implement Orchestrator Agent
+  - [x] 14.1 Implement Orchestrator Agent pipeline execution
     - Create `src/agents/orchestrator-agent.ts` implementing `OrchestratorAgent` interface
     - Implement `requestScore()`: execute pipeline (validate-session → check-cache → read-signals → compute-grade → store-result → mint-credential)
     - Implement cache-hit short-circuit: skip Signal, Scoring, Credential steps on valid cached result
@@ -263,7 +263,7 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Publish "workflow-complete" event with timing breakdown on completion
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.8_
 
-  - [~] 14.2 Implement concurrency control and backpressure
+  - [x] 14.2 Implement concurrency control and backpressure
     - Limit to 10 concurrent workflows
     - Queue excess requests in FIFO order
     - Reject new requests when queue exceeds 50 pending (system-busy)
@@ -277,8 +277,8 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - **Property 11: Concurrency and Backpressure** — Generate random request arrival patterns, verify 10 concurrent limit, FIFO queuing, 50/40 thresholds
     - **Validates: Requirements 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8**
 
-- [ ] 15. Implement Privacy Guard and cross-cutting event privacy
-  - [~] 15.1 Implement privacy filter for events and logs
+- [x] 15. Implement Privacy Guard and cross-cutting event privacy
+  - [x] 15.1 Implement privacy filter for events and logs
     - Create `src/privacy/privacy-guard.ts` with utilities to strip sensitive data from event payloads
     - Ensure no raw signal values, signal vectors, or Credit Grade values leak into Message Bus events or Adaptation Log entries
     - Only allow operation status, timestamps, agent IDs, hashes, and performance metrics in logs/events
@@ -289,11 +289,11 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - **Property 22: Privacy in Events and Logs** — Generate random scoring payloads through all agents, inspect every published event and log entry for absence of raw signals, vectors, and grades
     - **Validates: Requirements 5.5, 7.3, 10.6**
 
-- [~] 16. Checkpoint - All agents and privacy guard complete
+- [x] 16. Checkpoint - All agents and privacy guard complete
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 17. Create Supabase database schema and migrations
-  - [~] 17.1 Create database migration files for agent tables
+- [x] 17. Create Supabase database schema and migrations
+  - [x] 17.1 Create database migration files for agent tables
     - Create migration for `behavior_profiles` table with 50-key constraint, indexes, and RLS
     - Create migration for `adaptation_log` table with 64KB payload constraint, indexes, and RLS
     - Create migration for `level_gate_config` singleton table with RLS
@@ -302,8 +302,8 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Apply service-role-only RLS policies on all tables
     - _Requirements: 9.7, 11.1, 12.1, 12.6_
 
-- [ ] 18. Wire components together and integration
-  - [~] 18.1 Create system bootstrap and initialization
+- [x] 18. Wire components together and integration
+  - [x] 18.1 Create system bootstrap and initialization
     - Create `src/index.ts` as the system entry point
     - Instantiate Message Bus, Agent Registry, Behavior Profile Store, Adaptation Log
     - Register all 8 core agents with their default profiles and schemas
@@ -312,7 +312,7 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Wire Monitor Agent subscriptions to all bus events
     - _Requirements: 1.6, 13.1_
 
-  - [~] 18.2 Create agent factory and plugin registration utilities
+  - [x] 18.2 Create agent factory and plugin registration utilities
     - Create `src/agents/agent-factory.ts` for constructing agents with their dependencies
     - Create utility for runtime plugin registration
     - Expose `@nightscore/agent-types` type definitions from `src/types/`
@@ -326,7 +326,7 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Test Behavior Profile hot-reload
     - _Requirements: 3.1, 3.2, 3.3, 13.6_
 
-- [~] 19. Final checkpoint - Ensure all tests pass
+- [x] 19. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

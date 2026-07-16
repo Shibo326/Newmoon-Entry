@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Privacy Guard Pre-Write",
+  "description": "Before any write operation on agent files, verifies the changes maintain privacy invariants (no raw signals/grades in events) and follow the message bus communication pattern.",
+  "version": "1",
+  "when": {
+    "type": "preToolUse",
+    "toolTypes": [
+      "write"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Before writing this file, check: 1) No raw signal values, signal vectors, or CreditGrade values are being included in any event payload or log entry. Only hashes, timestamps, agent IDs, and metrics are allowed. 2) Agents don't import other agents directly — communication must go through MessageBus. 3) If this is an agent file, all parameters come from BehaviorProfile. If violations are found, modify the content to fix them before writing."
+  }
+}

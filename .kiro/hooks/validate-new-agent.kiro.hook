@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Validate New Agent File",
+  "description": "When a new agent file is created, reminds the AI to verify it implements the full Agent interface, has proper dependency injection, and follows privacy rules.",
+  "version": "1",
+  "when": {
+    "type": "fileCreated",
+    "patterns": [
+      "src/agents/*.ts"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A new agent file was just created. Verify it: 1) Implements all Agent interface methods (handleMessage, getHealth, getCapabilities, initialize, onActivate, onDeactivate, onConfigUpdate), 2) Uses constructor-injected interfaces for external dependencies, 3) Never imports other agents directly, 4) Reads config from BehaviorProfile not hardcoded values, 5) Never leaks raw signals/grades in published events. If any violations found, fix them immediately."
+  }
+}
