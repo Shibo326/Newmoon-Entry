@@ -91,7 +91,7 @@ npm test
 
 ## Initial Idea
 
-[FILL THIS IN — Your 1 paragraph product idea describing what NightScore will become as a full product. Example: "NightScore is a privacy-preserving credit reputation layer for DeFi lending protocols on Midnight. Users build a credit score from their on-chain activity, then prove their creditworthiness to lenders via zero-knowledge threshold proofs — without revealing their actual score, wallet history, or financial behavior. This enables under-collateralized lending while protecting user privacy."]
+NightScore is a privacy-preserving credit reputation layer for DeFi lending protocols on Midnight. Users build a credit score from their on-chain activity (wallet age, transaction frequency, DeFi interactions, repayment history, asset diversity, and liquidation events), then prove their creditworthiness to lenders via zero-knowledge threshold proofs — without revealing their actual score, wallet history, or financial behavior. A lending protocol asks "does this borrower have at least a BBB credit grade?" and gets a cryptographic yes/no — never the raw data. This enables under-collateralized lending while protecting user privacy.
 
 ## File Structure
 
