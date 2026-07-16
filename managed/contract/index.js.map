@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "file": "index.js",
+  "sourceRoot": "../../",
+  "sources": ["contracts/nightscore.compact"],
+  "names": [],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;EAAA;;;;;;;;;;MAmCA,AAAA,YAkBC;;;;;cAjBC,WAAkB;cAClB,aAAoB;cACpB,kBAAyB;cACzB,kBAAyB;cACzB,gBAAuB;cACvB,oBAA2B;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;yCAL3B,WAAkB,+BAClB,aAAoB,+BACpB,kBAAyB,+BACzB,kBAAyB,+BACzB,gBAAuB,+BACvB,oBAA2B;;;;;;;;;8CAL3B,WAAkB;8CAClB,aAAoB;8CACpB,kBAAyB;8CACzB,kBAAyB;8CACzB,gBAAuB;8CACvB,oBAA2B;;;OAY5B;MAOD,AAAA,eAQC;;;;;cAPC,aAAqB;cACrB,cAAsB;;;;;;;;;;;;;;;;;;;;;;;;;yCADtB,aAAqB,+BACrB,cAAsB;;;;;;;;;iDADtB,aAAqB;iDACrB,cAAsB;;;OAMvB;;;;;;;;;;GACA;EArED;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IA0BA;;;;;;;;;yEAA8B;IAC9B;;;;;;;;;yEAAkC;IAClC;;;;;;;;;yEAAoC;;;;;;;GAyCnC;EAlCD,AAAA,eAkBC;;kBAjBC,WAAkB;kBAClB,aAAoB;kBACpB,kBAAyB;kBACzB,kBAAyB;kBACzB,gBAAuB;kBACvB,oBAA2B;;UAI3B,KAAK,GAAY,WAAS,SACtB,aAAW;;kBACX,kBAAgB;;kBAChB,kBAAgB;;kBAChB,gBAAc;;kBACd,oBAAkB;IALtB;;;;;;;2HAAA,KAAK;;yEAAA;IAML;;;;;;;;;yEAAU;UACV,KAAW;;;;;6CAAa;;;;;;;;;;;kHAAW;;;IAAnC;;;;;;;2HAAA,KAAW;;yEAAA;;GACZ;EAOD,AAAA,kBAQC,4BAPC,aAAqB,EACrB,cAAsB;UAKtB,KAAU,GAAY,aAAW,IAAI,cAAY;IAAjD;;;;;;;2HAAA,KAAU;;yEAAA;;GACX;;;;;;;;;;;;;;;;IA1CD;qCAAA;;;;;;;;;;;0GAA8B;KAAA;IAC9B;qCAAA;;;;;;;;;;;0GAAkC;KAAA;IAClC;qCAAA;;;;;;;;;;;0GAAoC;KAAA;;;;;;;;;;"
+}

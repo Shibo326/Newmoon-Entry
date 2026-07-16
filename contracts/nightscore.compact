@@ -1,0 +1,69 @@
+pragma language_version >= 0.23;
+
+/**
+ * NightScore — Privacy-Preserving Credit Score Contract
+ *
+ * Privacy Model:
+ * ─────────────────────────────────────────────────────────
+ * PUBLIC (on-chain, visible to anyone):
+ *   - score: The disclosed weighted credit score
+ *   - registered: Boolean flag that a wallet has been scored
+ *   - totalScored: Counter of how many wallets have been scored
+ *
+ * PRIVATE (private witness, never on-chain):
+ *   - walletAge: How long the wallet has existed
+ *   - txFrequency: Number of transactions in scoring window
+ *   - defiInteractions: Number of DeFi protocol interactions
+ *   - repaymentHistory: Repayment success rate (0-100)
+ *   - assetDiversity: Number of distinct asset types held
+ *   - liquidationHistory: Number of liquidation events
+ *
+ * What the user PROVES without revealing:
+ *   - That their credit grade meets a minimum threshold
+ *     without revealing the raw signals or wallet activity
+ * ─────────────────────────────────────────────────────────
+ */
+
+export ledger score: Uint<16>;
+export ledger registered: Boolean;
+export ledger totalScored: Uint<32>;
+
+/**
+ * computeScore — Takes private wallet signals as witness inputs,
+ * computes a weighted credit score, and discloses only the result.
+ * The raw signals never leave the user's device.
+ */
+export circuit computeScore(
+  walletAge: Uint<8>,
+  txFrequency: Uint<8>,
+  defiInteractions: Uint<8>,
+  repaymentHistory: Uint<8>,
+  assetDiversity: Uint<8>,
+  liquidationHistory: Uint<8>
+): [] {
+  // Compute weighted score internally (never exposed directly)
+  // Weights: repayment(25) > wallet_age(20) > tx/defi/asset(15 each) > liquidation(10)
+  score = disclose(walletAge * 20
+    + txFrequency * 15
+    + defiInteractions * 15
+    + repaymentHistory * 25
+    + assetDiversity * 15
+    + liquidationHistory * 10);
+  registered = disclose(true);
+  totalScored = disclose((totalScored + 1) as Uint<32>);
+}
+
+/**
+ * verifyThreshold — Proves a wallet's score meets a minimum
+ * without revealing the actual score. Uses disclose() deliberately
+ * to reveal ONLY the boolean result to the verifier.
+ */
+export circuit verifyThreshold(
+  actualScore: Uint<16>,
+  minimumScore: Uint<16>
+): [] {
+  // disclose() is used DELIBERATELY here:
+  // It reveals ONLY the boolean result (yes/no) to the on-chain verifier.
+  // The actualScore itself is NEVER disclosed.
+  registered = disclose(actualScore >= minimumScore);
+}

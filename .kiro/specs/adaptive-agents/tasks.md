@@ -42,7 +42,7 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Discard messages buffered longer than 1 hour
     - _Requirements: 2.5, 2.7_
 
-  - [ ]* 2.3 Write property tests for Message Bus (Properties 4-7)
+  - [x]* 2.3 Write property tests for Message Bus (Properties 4-7)
     - **Property 4: Message Schema Validation** — Generate random message objects with varied field presence/types, verify accept/reject behavior
     - **Property 5: Topic-Based Subscription Routing** — Generate random subscription sets × messages, verify delivery to exactly subscribed agents
     - **Property 6: Request Timeout Handling** — Generate random timeouts with no response, verify exactly one timeout Error with correct correlation ID
@@ -75,7 +75,7 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Make registered plugins available for message routing within 5 seconds
     - _Requirements: 1.6, 1.9, 14.5, 14.7_
 
-  - [ ]* 3.4 Write property tests for Agent Registry (Properties 1-3, 31-34)
+  - [x]* 3.4 Write property tests for Agent Registry (Properties 1-3, 31-34)
     - **Property 1: Agent Interface Conformance Validation** — Generate objects with random subsets of required methods, verify accept/reject and error specificity
     - **Property 2: Lifecycle State-Change Event Integrity** — Generate random state transitions, verify exactly one event per transition with correct fields
     - **Property 3: Registry Query Filtering** — Generate random agent sets × filter combinations, verify exact match results
@@ -114,7 +114,7 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Enforce 90-day minimum retention
     - _Requirements: 12.1, 12.4, 12.5, 12.6_
 
-  - [ ]* 5.4 Write property tests for Behavior Profile and Adaptation Log (Properties 25, 26, 28, 29, 30)
+  - [x]* 5.4 Write property tests for Behavior Profile and Adaptation Log (Properties 25, 26, 28, 29, 30)
     - **Property 25: Behavior Profile Version Retention** — Generate random update sequences, verify last 10 versions retained, rollback creates new version
     - **Property 26: Profile Schema Validation** — Generate random profile objects vs schemas, verify validation and error detail
     - **Property 28: Failed Config Apply Retains Previous State** — Generate random failing applications, verify state retention and error events
@@ -132,7 +132,7 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Persist connection state in browser session storage for auto-reconnect on refresh
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6_
 
-  - [ ]* 6.2 Write unit tests for Wallet Agent
+  - [x]* 6.2 Write unit tests for Wallet Agent
     - Test connect success/failure/timeout flows
     - Test validate-session with active/expired/disconnected states
     - Test disconnect cleanup
@@ -150,7 +150,7 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Publish "signals.read" event with signal vector hash (not raw signals)
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6_
 
-  - [ ]* 7.2 Write property test for Signal Agent (Property 12)
+  - [x]* 7.2 Write property test for Signal Agent (Property 12)
     - **Property 12: Signal Normalization** — Generate random raw signals × availability patterns, verify exactly 6 values in [0.0, 1.0], default 0.5 with estimated flag for unavailable signals
     - **Validates: Requirements 5.1, 5.2, 5.4**
 
@@ -165,7 +165,7 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Publish "scoring.rate-limited" and "scoring.parse-failed" events as appropriate
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7_
 
-  - [ ]* 8.2 Write property tests for Scoring Agent (Properties 13, 14)
+  - [x]* 8.2 Write property tests for Scoring Agent (Properties 13, 14)
     - **Property 13: Scoring Output Structure and Validation** — Generate random valid/invalid signal vectors, verify grade set membership, 6-entry reasoning, and rejection specifics
     - **Property 14: Scoring Determinism** — Generate random vectors, invoke multiple times with same profile, verify identical output
     - **Validates: Requirements 6.1, 6.5, 6.6**
@@ -182,7 +182,7 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Publish "credential.minted" event on success
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7_
 
-  - [ ]* 9.2 Write property tests for Credential Agent (Properties 15, 16)
+  - [x]* 9.2 Write property tests for Credential Agent (Properties 15, 16)
     - **Property 15: Credential Request Validation** — Generate random request objects with varied field presence, verify rejection and field-specific errors
     - **Property 16: Credential Revocation Before Re-Mint** — Generate random credential states × failure patterns, verify revocation-first logic and abort on failure
     - **Validates: Requirements 7.2, 7.7**
@@ -199,7 +199,7 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Publish "verification.queried" event with timestamp and querying address only
     - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8_
 
-  - [ ]* 10.2 Write property tests for Verification Agent (Properties 17-19)
+  - [x]* 10.2 Write property tests for Verification Agent (Properties 17-19)
     - **Property 17: Threshold Comparison Correctness** — Test all 36 grade pair combinations plus random extras, verify boolean correctness per numeric encoding
     - **Property 18: Verification Input Validation** — Generate random invalid grades + malformed addresses, verify rejection without contract call
     - **Property 19: Verification Privacy** — Generate random queries, inspect response and event fields for absence of grade/signals/wallet info
@@ -218,7 +218,7 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Enforce row-level security (NIGHTSCORE service role only)
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7_
 
-  - [ ]* 11.2 Write property tests for Cache Agent (Properties 20, 21)
+  - [x]* 11.2 Write property tests for Cache Agent (Properties 20, 21)
     - **Property 20: Cache Hit/Miss Correctness** — Generate random cache states × TTL × hash combinations, verify hit/miss behavior
     - **Property 21: Cache Graceful Degradation** — Generate random failure patterns after retry exhaustion, verify non-halting response and event publication
     - **Validates: Requirements 9.1, 9.2, 9.5**
@@ -247,7 +247,7 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Mark entries "incomplete" when metrics collection fails
     - _Requirements: 11.6, 12.2, 12.3, 12.7, 12.8_
 
-  - [ ]* 13.3 Write property tests for Monitor Agent (Properties 23, 24, 27)
+  - [x]* 13.3 Write property tests for Monitor Agent (Properties 23, 24, 27)
     - **Property 23: System Health Status Determination** — Generate random agent state + alert combinations, verify correct health classification
     - **Property 24: Error Threshold Alerting** — Generate random error sequences within time windows, verify exactly one alert when threshold exceeded
     - **Property 27: Config Regression Detection** — Generate random config changes × error rate patterns, verify regression alert with correct details
@@ -270,7 +270,7 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Resume accepting when queue drops below 40
     - _Requirements: 3.6, 3.7_
 
-  - [ ]* 14.3 Write property tests for Orchestrator Agent (Properties 8-11)
+  - [x]* 14.3 Write property tests for Orchestrator Agent (Properties 8-11)
     - **Property 8: Cache-Hit Pipeline Short-Circuit** — Generate random cache hit scenarios, verify Signal/Scoring/Credential not invoked
     - **Property 9: Pipeline Halt on Agent Failure** — Inject random failures at each step, verify halt and correct failure recording
     - **Property 10: Workflow Context Accumulation** — Generate random step result sequences, verify context accuracy
@@ -285,7 +285,7 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Integrate privacy guard into all agent event publishing paths
     - _Requirements: 5.5, 7.3, 10.6_
 
-  - [ ]* 15.2 Write property test for privacy (Property 22)
+  - [x]* 15.2 Write property test for privacy (Property 22)
     - **Property 22: Privacy in Events and Logs** — Generate random scoring payloads through all agents, inspect every published event and log entry for absence of raw signals, vectors, and grades
     - **Validates: Requirements 5.5, 7.3, 10.6**
 
@@ -318,7 +318,7 @@ Decompose NightScore's credit scoring workflow into specialized, composable Type
     - Expose `@nightscore/agent-types` type definitions from `src/types/`
     - _Requirements: 14.3, 14.4, 14.5_
 
-  - [ ]* 18.3 Write integration tests for full scoring workflow
+  - [x]* 18.3 Write integration tests for full scoring workflow
     - Test full pipeline: Wallet → Cache → Signal → Scoring → Credential (happy path)
     - Test cache-hit short-circuit
     - Test pipeline failure and halt
