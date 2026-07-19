@@ -26,6 +26,9 @@ export function Layout({ children }: LayoutProps) {
               <span className="hidden sm:inline-block text-xs text-night-muted/60 ml-2 px-2 py-0.5 rounded-full border border-night-muted/20">
                 Preview
               </span>
+              <span className="hidden sm:inline-block text-xs text-night-accent/60 ml-1 px-2 py-0.5 rounded-full border border-night-accent/20">
+                ZK-Powered
+              </span>
             </div>
 
             {/* Wallet Connect (compact mode in nav) */}
