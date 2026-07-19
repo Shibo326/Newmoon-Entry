@@ -1,12 +1,28 @@
+import { useState, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Layout } from './components/Layout';
 import { WalletConnect } from './components/WalletConnect';
 import { CircuitCall } from './components/CircuitCall';
 import { AnimatedCard } from './components/AnimatedCard';
+import { LoadingScreen } from './components/LoadingScreen';
+import { LottieAnimation } from './components/LottieAnimation';
 import { useMidnight } from './hooks/useMidnight';
+
+import cryptoShield from './assets/lottie/crypto-shield.json';
+import blockchainNode from './assets/lottie/blockchain-node.json';
+import moonGlow from './assets/lottie/moon-glow.json';
 
 export default function App() {
   const { isConnected } = useMidnight();
+  const [isLoading, setIsLoading] = useState(true);
+
+  const handleLoadingComplete = useCallback(() => {
+    setIsLoading(false);
+  }, []);
+
+  if (isLoading) {
+    return <LoadingScreen onComplete={handleLoadingComplete} />;
+  }
 
   return (
     <Layout>
@@ -39,22 +55,28 @@ export default function App() {
 
 function HeroSection() {
   return (
-    <div className="flex flex-col items-center gap-8 py-12">
-      {/* Hero Text — staggered */}
-      <div className="text-center max-w-lg">
+    <div className="flex flex-col items-center gap-12 py-16">
+      {/* Hero Text — large bold like Lace */}
+      <div className="text-center max-w-2xl">
         <motion.h1
-          className="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-night-text via-night-accent to-purple-300 bg-clip-text text-transparent leading-tight"
-          initial={{ opacity: 0, y: 20 }}
+          className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-[1.1] tracking-tight"
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          Privacy-Preserving Credit Score
+          <span className="bg-gradient-to-r from-white via-night-text to-night-muted/80 bg-clip-text text-transparent">
+            The private way to
+          </span>
+          <br />
+          <span className="bg-gradient-to-r from-night-accent via-purple-300 to-amber-300 bg-clip-text text-transparent">
+            prove your score
+          </span>
         </motion.h1>
         <motion.p
-          className="text-night-muted text-lg leading-relaxed"
-          initial={{ opacity: 0, y: 16 }}
+          className="text-night-muted text-lg sm:text-xl leading-relaxed max-w-lg mx-auto"
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{ duration: 0.6, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           Prove your DeFi creditworthiness without revealing your wallet history,
           transaction patterns, or financial behavior.
@@ -63,41 +85,68 @@ function HeroSection() {
 
       {/* Feature Cards — staggered */}
       <motion.div
-        className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-2xl"
+        className="grid grid-cols-1 sm:grid-cols-3 gap-5 w-full max-w-3xl"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.4 }}
+        transition={{ delay: 0.5 }}
       >
-        <AnimatedCard delay={0.45}>
-          <div className="text-center">
-            <div className="text-2xl mb-2">🔒</div>
-            <h3 className="text-sm font-semibold text-night-text mb-1">Zero Knowledge</h3>
-            <p className="text-xs text-night-muted">6 private signals computed in a ZK circuit</p>
-          </div>
-        </AnimatedCard>
         <AnimatedCard delay={0.55}>
-          <div className="text-center">
-            <div className="text-2xl mb-2">⚡</div>
-            <h3 className="text-sm font-semibold text-night-text mb-1">On-Chain Proof</h3>
-            <p className="text-xs text-night-muted">Score verified without revealing raw data</p>
+          <div className="text-center p-2">
+            <div className="w-14 h-14 mx-auto mb-3">
+              <LottieAnimation animationData={cryptoShield} className="w-full h-full" />
+            </div>
+            <h3 className="text-sm font-semibold text-night-text mb-1.5">Zero Knowledge</h3>
+            <p className="text-xs text-night-muted leading-relaxed">6 private signals computed in a ZK circuit — nothing revealed on-chain</p>
           </div>
         </AnimatedCard>
         <AnimatedCard delay={0.65}>
-          <div className="text-center">
-            <div className="text-2xl mb-2">🌙</div>
-            <h3 className="text-sm font-semibold text-night-text mb-1">Midnight Network</h3>
-            <p className="text-xs text-night-muted">Built on Midnight&apos;s privacy-first L1</p>
+          <div className="text-center p-2">
+            <div className="w-14 h-14 mx-auto mb-3">
+              <LottieAnimation animationData={blockchainNode} className="w-full h-full" />
+            </div>
+            <h3 className="text-sm font-semibold text-night-text mb-1.5">On-Chain Proof</h3>
+            <p className="text-xs text-night-muted leading-relaxed">Score verified cryptographically without exposing raw data</p>
+          </div>
+        </AnimatedCard>
+        <AnimatedCard delay={0.75}>
+          <div className="text-center p-2">
+            <div className="w-14 h-14 mx-auto mb-3">
+              <LottieAnimation animationData={moonGlow} className="w-full h-full" />
+            </div>
+            <h3 className="text-sm font-semibold text-night-text mb-1.5">Midnight Network</h3>
+            <p className="text-xs text-night-muted leading-relaxed">Built on Midnight&apos;s privacy-first Layer 1 blockchain</p>
           </div>
         </AnimatedCard>
       </motion.div>
 
       {/* Connect Prompt — delayed entrance */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+        transition={{ duration: 0.6, delay: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <WalletConnect />
+      </motion.div>
+
+      {/* Trust indicators */}
+      <motion.div
+        className="flex flex-wrap items-center justify-center gap-6 pt-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2 }}
+      >
+        <div className="flex items-center gap-2 text-night-muted/40 text-xs">
+          <div className="w-1.5 h-1.5 rounded-full bg-green-400/60" />
+          <span>Midnight Testnet Live</span>
+        </div>
+        <div className="flex items-center gap-2 text-night-muted/40 text-xs">
+          <div className="w-1.5 h-1.5 rounded-full bg-night-accent/60" />
+          <span>ZK Proofs Enabled</span>
+        </div>
+        <div className="flex items-center gap-2 text-night-muted/40 text-xs">
+          <div className="w-1.5 h-1.5 rounded-full bg-amber-400/60" />
+          <span>Lace Wallet Compatible</span>
+        </div>
       </motion.div>
     </div>
   );
