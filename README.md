@@ -114,6 +114,36 @@ NightScore/
 └── package.json
 ```
 
+## Live Demo
+
+[PASTE LIVE URL AFTER DEPLOYING FRONTEND]
+
+## Frontend
+
+The NightScore frontend is a React + Vite + TypeScript single-page application with a dark theme and glassmorphism UI. It demonstrates the ZK credit scoring flow with a mock provider (replace with real Midnight SDK when available).
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Build for production:
+```bash
+cd frontend
+npm run build
+```
+
+Deploy to Vercel:
+```bash
+cd frontend
+npx vercel
+```
+
+## Privacy Claim
+
+An on-chain observer can see the disclosed weighted score but CANNOT see the 6 raw wallet signals (walletAge, txFrequency, defiInteractions, repaymentHistory, assetDiversity, liquidationHistory). The user proves their creditworthiness via ZK proof without revealing any private data.
+
 ## License
 
 MIT
