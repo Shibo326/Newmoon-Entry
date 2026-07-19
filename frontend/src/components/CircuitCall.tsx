@@ -100,6 +100,13 @@ export function CircuitCall() {
         </div>
       </FadeInSection>
 
+      {/* Privacy Notice */}
+      <FadeInSection delay={0.05}>
+        <div className="mb-6 px-4 py-3 rounded-xl bg-green-500/5 border border-green-500/20 text-green-300/80 text-xs text-center">
+          🔒 Your 6 private signals are computed locally via ZK circuit — they never leave your device or appear on-chain
+        </div>
+      </FadeInSection>
+
       {/* Contract Info */}
       <FadeInSection delay={0.1}>
         <AnimatedCard className="mb-6" delay={0.1}>
