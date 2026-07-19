@@ -115,6 +115,9 @@ export function WalletConnect({ compact = false }: WalletConnectProps) {
             Install it here →
           </a>
         </p>
+        <p className="text-xs text-night-muted/40 mt-2">
+          Supports Midnight Preprod &amp; Preview networks
+        </p>
       </div>
     </motion.div>
   );
