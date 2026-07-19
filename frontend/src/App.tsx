@@ -1,16 +1,12 @@
 import { useState, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { ShieldCheck, Zap, Moon } from 'lucide-react';
 import { Layout } from './components/Layout';
 import { WalletConnect } from './components/WalletConnect';
 import { CircuitCall } from './components/CircuitCall';
 import { AnimatedCard } from './components/AnimatedCard';
 import { LoadingScreen } from './components/LoadingScreen';
-import { LottieAnimation } from './components/LottieAnimation';
 import { useMidnight } from './hooks/useMidnight';
-
-import cryptoShield from './assets/lottie/crypto-shield.json';
-import blockchainNode from './assets/lottie/blockchain-node.json';
-import moonGlow from './assets/lottie/moon-glow.json';
 
 export default function App() {
   const { isConnected } = useMidnight();
@@ -91,27 +87,27 @@ function HeroSection() {
         transition={{ delay: 0.5 }}
       >
         <AnimatedCard delay={0.55}>
-          <div className="text-center p-4">
-            <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-night-accent/20 to-purple-600/10 border border-night-accent/30 flex items-center justify-center shadow-glow">
-              <LottieAnimation animationData={cryptoShield} className="w-16 h-16" />
+          <div className="text-center p-2">
+            <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-night-accent/10 border border-night-accent/20 flex items-center justify-center">
+              <ShieldCheck className="w-6 h-6 text-night-accent" strokeWidth={1.5} />
             </div>
             <h3 className="text-sm font-semibold text-night-text mb-1.5">Zero Knowledge</h3>
             <p className="text-xs text-night-muted leading-relaxed">6 private signals computed in a ZK circuit — nothing revealed on-chain</p>
           </div>
         </AnimatedCard>
         <AnimatedCard delay={0.65}>
-          <div className="text-center p-4">
-            <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-amber-500/20 to-orange-600/10 border border-amber-500/30 flex items-center justify-center shadow-glow-gold">
-              <LottieAnimation animationData={blockchainNode} className="w-16 h-16" />
+          <div className="text-center p-2">
+            <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+              <Zap className="w-6 h-6 text-amber-400" strokeWidth={1.5} />
             </div>
             <h3 className="text-sm font-semibold text-night-text mb-1.5">On-Chain Proof</h3>
             <p className="text-xs text-night-muted leading-relaxed">Score verified cryptographically without exposing raw data</p>
           </div>
         </AnimatedCard>
         <AnimatedCard delay={0.75}>
-          <div className="text-center p-4">
-            <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-purple-500/20 to-indigo-600/10 border border-purple-400/30 flex items-center justify-center shadow-glow">
-              <LottieAnimation animationData={moonGlow} className="w-16 h-16" />
+          <div className="text-center p-2">
+            <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
+              <Moon className="w-6 h-6 text-purple-400" strokeWidth={1.5} />
             </div>
             <h3 className="text-sm font-semibold text-night-text mb-1.5">Midnight Network</h3>
             <p className="text-xs text-night-muted leading-relaxed">Built on Midnight&apos;s privacy-first Layer 1 blockchain</p>

@@ -8,7 +8,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          lottie: ['lottie-react', 'lottie-web'],
+          lottie: ['lottie-react'],
         },
       },
     },

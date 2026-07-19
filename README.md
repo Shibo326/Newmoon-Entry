@@ -116,7 +116,7 @@ NightScore/
 
 ## Live Demo
 
-[PASTE LIVE URL AFTER DEPLOYING FRONTEND]
+https://newmoon-entry-projects.vercel.app
 
 ## Frontend
 

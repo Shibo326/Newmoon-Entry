@@ -10,20 +10,21 @@ interface AnimatedCardProps {
 export function AnimatedCard({ children, className = '', delay = 0 }: AnimatedCardProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
+      initial={{ opacity: 0, scale: 0.92, y: 20 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{
-        duration: 0.4,
+        duration: 0.5,
         delay,
         ease: [0.25, 0.46, 0.45, 0.94],
       }}
       whileHover={{
-        y: -2,
-        borderColor: 'rgba(139, 92, 246, 0.35)',
-        boxShadow: '0 8px 32px rgba(139, 92, 246, 0.12)',
-        transition: { duration: 0.25, ease: 'easeOut' },
+        y: -6,
+        scale: 1.02,
+        borderColor: 'rgba(139, 92, 246, 0.5)',
+        boxShadow: '0 12px 40px rgba(139, 92, 246, 0.15), 0 0 20px rgba(139, 92, 246, 0.08)',
+        transition: { duration: 0.3, ease: 'easeOut' },
       }}
-      className={`glass rounded-xl p-4 transition-colors ${className}`}
+      className={`glass rounded-2xl p-5 cursor-default transition-colors ${className}`}
     >
       {children}
     </motion.div>

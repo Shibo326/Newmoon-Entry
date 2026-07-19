@@ -1,5 +1,6 @@
 import { type ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Moon, BookOpen, Code2 } from 'lucide-react';
 import { WalletConnect } from './WalletConnect';
 import { ConstellationBackground } from './ConstellationBackground';
 import { FlowingWires } from './FlowingWires';
@@ -21,15 +22,17 @@ export function Layout({ children }: LayoutProps) {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <motion.div
-              className="flex items-center gap-2"
+              className="flex items-center gap-2.5"
               whileHover={{ scale: 1.02 }}
               transition={{ type: 'spring', stiffness: 300 }}
             >
-              <span className="text-2xl">🌙</span>
+              <div className="w-8 h-8 rounded-lg bg-night-accent/10 border border-night-accent/30 flex items-center justify-center">
+                <Moon className="w-4 h-4 text-night-accent" strokeWidth={1.5} />
+              </div>
               <span className="text-xl font-bold bg-gradient-to-r from-night-accent via-purple-300 to-amber-300 bg-clip-text text-transparent">
                 NightScore
               </span>
-              <span className="hidden sm:inline-block text-[10px] text-night-muted/60 ml-2 px-2 py-0.5 rounded-full border border-night-accent/20 uppercase tracking-wider">
+              <span className="hidden sm:inline-block text-[10px] text-night-muted/60 ml-1 px-2 py-0.5 rounded-full border border-night-accent/20 uppercase tracking-wider">
                 Preview
               </span>
             </motion.div>
@@ -60,7 +63,7 @@ export function Layout({ children }: LayoutProps) {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <span className="text-lg">🌙</span>
+              <Moon className="w-4 h-4 text-night-accent/60" strokeWidth={1.5} />
               <span className="text-sm font-semibold bg-gradient-to-r from-night-accent to-purple-300 bg-clip-text text-transparent">
                 NightScore
               </span>
@@ -82,16 +85,18 @@ export function Layout({ children }: LayoutProps) {
                 href="https://docs.midnight.network"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-night-muted/40 hover:text-night-muted transition-colors"
+                className="flex items-center gap-1.5 text-xs text-night-muted/40 hover:text-night-muted transition-colors"
               >
+                <BookOpen className="w-3.5 h-3.5" strokeWidth={1.5} />
                 Docs
               </a>
               <a
                 href="https://github.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-night-muted/40 hover:text-night-muted transition-colors"
+                className="flex items-center gap-1.5 text-xs text-night-muted/40 hover:text-night-muted transition-colors"
               >
+                <Code2 className="w-3.5 h-3.5" strokeWidth={1.5} />
                 GitHub
               </a>
             </div>

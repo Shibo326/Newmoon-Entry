@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Wallet, Moon, ExternalLink } from 'lucide-react';
 import { useMidnight } from '../hooks/useMidnight';
 import { AnimatedButton } from './AnimatedButton';
 
@@ -52,7 +53,10 @@ export function WalletConnect({ compact = false }: WalletConnectProps) {
               Connecting...
             </span>
           ) : (
-            'Connect Wallet'
+            <span className="flex items-center gap-2">
+              <Wallet className="w-4 h-4" strokeWidth={1.5} />
+              Connect Wallet
+            </span>
           )}
         </AnimatedButton>
         {error && <ErrorMessage message={error} />}
@@ -68,13 +72,13 @@ export function WalletConnect({ compact = false }: WalletConnectProps) {
       transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
       <div className="glass rounded-2xl p-8 max-w-md w-full text-center">
-        {/* Floating moon emoji */}
+        {/* Floating moon icon */}
         <motion.div
-          className="text-5xl mb-4"
+          className="mx-auto mb-5 w-14 h-14 rounded-2xl bg-night-accent/10 border border-night-accent/20 flex items-center justify-center"
           animate={{ y: [0, -6, 0] }}
           transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
         >
-          🌙
+          <Moon className="w-7 h-7 text-night-accent" strokeWidth={1.5} />
         </motion.div>
 
         <h2 className="text-2xl font-bold text-night-text mb-2">
@@ -98,7 +102,10 @@ export function WalletConnect({ compact = false }: WalletConnectProps) {
               Connecting...
             </span>
           ) : (
-            'Connect Lace Wallet'
+            <span className="flex items-center justify-center gap-2">
+              <Wallet className="w-5 h-5" strokeWidth={1.5} />
+              Connect Lace Wallet
+            </span>
           )}
         </AnimatedButton>
 
@@ -110,9 +117,10 @@ export function WalletConnect({ compact = false }: WalletConnectProps) {
             href="https://www.lace.io/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-night-accent hover:underline"
+            className="inline-flex items-center gap-1 text-night-accent hover:underline"
           >
-            Install it here →
+            Install it here
+            <ExternalLink className="w-3 h-3" strokeWidth={1.5} />
           </a>
         </p>
         <p className="text-xs text-night-muted/40 mt-2">
