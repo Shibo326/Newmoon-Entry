@@ -26,9 +26,7 @@ export function Layout({ children }: LayoutProps) {
               whileHover={{ scale: 1.02 }}
               transition={{ type: 'spring', stiffness: 300 }}
             >
-              <div className="w-8 h-8 rounded-lg bg-night-accent/10 border border-night-accent/30 flex items-center justify-center">
-                <Moon className="w-4 h-4 text-night-accent" strokeWidth={1.5} />
-              </div>
+              <img src="/logo-nobg.png" alt="NightScore" className="w-8 h-8 rounded-lg" />
               <span className="text-xl font-bold bg-gradient-to-r from-night-accent via-purple-300 to-amber-300 bg-clip-text text-transparent">
                 NightScore
               </span>
