@@ -91,27 +91,27 @@ function HeroSection() {
         transition={{ delay: 0.5 }}
       >
         <AnimatedCard delay={0.55}>
-          <div className="text-center p-2">
-            <div className="w-14 h-14 mx-auto mb-3">
-              <LottieAnimation animationData={cryptoShield} className="w-full h-full" />
+          <div className="text-center p-4">
+            <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-night-accent/20 to-purple-600/10 border border-night-accent/30 flex items-center justify-center shadow-glow">
+              <LottieAnimation animationData={cryptoShield} className="w-16 h-16" />
             </div>
             <h3 className="text-sm font-semibold text-night-text mb-1.5">Zero Knowledge</h3>
             <p className="text-xs text-night-muted leading-relaxed">6 private signals computed in a ZK circuit — nothing revealed on-chain</p>
           </div>
         </AnimatedCard>
         <AnimatedCard delay={0.65}>
-          <div className="text-center p-2">
-            <div className="w-14 h-14 mx-auto mb-3">
-              <LottieAnimation animationData={blockchainNode} className="w-full h-full" />
+          <div className="text-center p-4">
+            <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-amber-500/20 to-orange-600/10 border border-amber-500/30 flex items-center justify-center shadow-glow-gold">
+              <LottieAnimation animationData={blockchainNode} className="w-16 h-16" />
             </div>
             <h3 className="text-sm font-semibold text-night-text mb-1.5">On-Chain Proof</h3>
             <p className="text-xs text-night-muted leading-relaxed">Score verified cryptographically without exposing raw data</p>
           </div>
         </AnimatedCard>
         <AnimatedCard delay={0.75}>
-          <div className="text-center p-2">
-            <div className="w-14 h-14 mx-auto mb-3">
-              <LottieAnimation animationData={moonGlow} className="w-full h-full" />
+          <div className="text-center p-4">
+            <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-purple-500/20 to-indigo-600/10 border border-purple-400/30 flex items-center justify-center shadow-glow">
+              <LottieAnimation animationData={moonGlow} className="w-16 h-16" />
             </div>
             <h3 className="text-sm font-semibold text-night-text mb-1.5">Midnight Network</h3>
             <p className="text-xs text-night-muted leading-relaxed">Built on Midnight&apos;s privacy-first Layer 1 blockchain</p>

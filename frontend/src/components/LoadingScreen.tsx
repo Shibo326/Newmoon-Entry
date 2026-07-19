@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { Moon } from 'lucide-react';
 
 interface LoadingScreenProps {
   onComplete: () => void;
@@ -12,7 +13,7 @@ export function LoadingScreen({ onComplete, duration = 2800 }: LoadingScreenProp
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
-      setTimeout(onComplete, 600); // Wait for exit animation
+      setTimeout(onComplete, 600);
     }, duration);
     return () => clearTimeout(timer);
   }, [duration, onComplete]);
@@ -25,7 +26,7 @@ export function LoadingScreen({ onComplete, duration = 2800 }: LoadingScreenProp
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          {/* Animated flowing wire lines — Lace-inspired golden curves */}
+          {/* Animated flowing wire lines */}
           <svg
             className="absolute inset-0 w-full h-full"
             viewBox="0 0 1200 800"
@@ -52,7 +53,6 @@ export function LoadingScreen({ onComplete, duration = 2800 }: LoadingScreenProp
               </linearGradient>
             </defs>
 
-            {/* Primary flowing wire — purple */}
             <motion.path
               d="M-100,400 C100,350 300,500 500,380 C700,260 900,450 1100,350 C1300,250 1400,400 1500,380"
               fill="none"
@@ -63,7 +63,6 @@ export function LoadingScreen({ onComplete, duration = 2800 }: LoadingScreenProp
               animate={{ pathLength: 1, opacity: 1 }}
               transition={{ duration: 2, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}
             />
-            {/* Secondary wire — gold (Lace-style) */}
             <motion.path
               d="M-50,500 C150,420 350,600 550,480 C750,360 850,520 1050,440 C1250,360 1350,500 1500,460"
               fill="none"
@@ -74,7 +73,6 @@ export function LoadingScreen({ onComplete, duration = 2800 }: LoadingScreenProp
               animate={{ pathLength: 1, opacity: 1 }}
               transition={{ duration: 2.2, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.4 }}
             />
-            {/* Third wire — subtle pink accent */}
             <motion.path
               d="M-100,300 C100,380 250,250 450,320 C650,390 800,280 1000,340 C1200,400 1350,300 1500,320"
               fill="none"
@@ -85,7 +83,6 @@ export function LoadingScreen({ onComplete, duration = 2800 }: LoadingScreenProp
               animate={{ pathLength: 1, opacity: 0.6 }}
               transition={{ duration: 2.4, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.6 }}
             />
-            {/* Fourth wire — lower area gold */}
             <motion.path
               d="M-100,600 C200,550 350,680 550,580 C750,480 900,620 1100,560 C1300,500 1400,620 1500,580"
               fill="none"
@@ -96,7 +93,6 @@ export function LoadingScreen({ onComplete, duration = 2800 }: LoadingScreenProp
               animate={{ pathLength: 1, opacity: 0.4 }}
               transition={{ duration: 2.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.3 }}
             />
-            {/* Fifth wire — upper subtle purple */}
             <motion.path
               d="M-100,200 C150,260 300,180 500,240 C700,300 850,200 1050,260 C1250,320 1350,220 1500,260"
               fill="none"
@@ -116,20 +112,22 @@ export function LoadingScreen({ onComplete, duration = 2800 }: LoadingScreenProp
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            {/* Glowing moon icon */}
+            {/* Moon icon with glow */}
             <motion.div
               className="relative"
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
             >
-              <div className="text-6xl">🌙</div>
+              <div className="w-16 h-16 rounded-2xl bg-night-accent/10 border border-night-accent/30 flex items-center justify-center">
+                <Moon className="w-8 h-8 text-night-accent" strokeWidth={1.5} />
+              </div>
               <motion.div
-                className="absolute inset-0 rounded-full"
+                className="absolute -inset-2 rounded-2xl"
                 animate={{
                   boxShadow: [
-                    '0 0 30px rgba(139, 92, 246, 0.3)',
-                    '0 0 60px rgba(139, 92, 246, 0.5)',
-                    '0 0 30px rgba(139, 92, 246, 0.3)',
+                    '0 0 20px rgba(139, 92, 246, 0.2)',
+                    '0 0 40px rgba(139, 92, 246, 0.4)',
+                    '0 0 20px rgba(139, 92, 246, 0.2)',
                   ],
                 }}
                 transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
