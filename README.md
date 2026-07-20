@@ -1,149 +1,78 @@
 # NightScore
-
+![CI](https://github.com/Shibo326/Newmoon-Entry/actions/workflows/ci.yml/badge.svg)
 > Privacy-preserving credit scoring on Midnight — prove your creditworthiness without revealing your financial activity.
 
-## Contract Address
+## Live Demo
+https://newmoon-entry-projects.vercel.app
 
-| Network  | Address                          |
-|----------|----------------------------------|
-| Preview  | a3e01772c31935fc25719d878514b2bb1b64198c65b4862dd9fcb6888173af71 |
-| Preprod  | [PASTE ADDRESS AFTER DEPLOY]     |
+## Contract Address
+| Network | Address |
+|---------|---------|
+| Preview | a3e01772c31935fc25719d878514b2bb1b64198c65b4862dd9fcb6888173af71 |
+| Preprod | [DEPLOYING — will update when Preprod sync completes] |
 
 ## What This Does
-
-NightScore computes a DeFi credit grade from 6 wallet signals (wallet age, transaction frequency, DeFi interactions, repayment history, asset diversity, liquidation history) using zero-knowledge proofs on Midnight. The user's raw financial data never leaves their device — only a hash of their score and a boolean threshold proof go on-chain.
+NightScore computes a DeFi credit grade from 6 wallet signals (wallet age, transaction frequency, DeFi interactions, repayment history, asset diversity, liquidation history) using zero-knowledge proofs on Midnight. The user's raw financial data never leaves their device — only a hash of their score goes on-chain.
 
 A lending protocol can verify "does this wallet have at least a BBB credit grade?" and get a yes/no answer without ever seeing the actual grade or the underlying signals.
 
 ## Privacy Model
+- **PUBLIC** (on-chain, visible to anyone): Score hash, wallet registered flag, total scored counter, threshold verification boolean (YES/NO)
+- **PRIVATE** (private witness, never on-chain): Wallet age, transaction frequency, DeFi interactions, repayment history, asset diversity, liquidation history, actual credit score
+- **PROVED without revealing**: "My credit grade meets your minimum threshold" — the verifier sees true/false, never the actual grade or raw signals
 
-- **What is PUBLIC** (on-chain, visible to anyone):
-  - `scoreHash` — a hash proving a credit score was computed
-  - `walletRegistered` — boolean flag that a wallet has been scored
-  - `totalScored` — counter of total wallets scored
-
-- **What is PRIVATE** (private witness, never on-chain):
-  - Wallet age (days)
-  - Transaction frequency
-  - DeFi protocol interactions
-  - Repayment success rate
-  - Asset diversity (distinct token types)
-  - Liquidation history
-
-- **What the user PROVES without revealing**:
-  - "My credit grade meets your minimum threshold" (boolean only)
-  - The verifier sees true/false — never the actual grade or raw signals
+## Privacy Claim
+An on-chain observer can see that a wallet has been scored and whether it meets a specific threshold. They CANNOT see the actual credit score, the individual signal values, or any wallet activity data. The zero-knowledge proof guarantees the computation is correct without revealing inputs.
 
 ## Tech Stack
-
-- Midnight network
-- Compact language (ZK smart contracts)
-- Node.js v22
-- Docker (proof server)
-- Vitest (testing)
-- TypeScript
+- Midnight network (Compact language, ZK circuits)
+- React + Vite + TypeScript (frontend)
+- Tailwind CSS + Framer Motion (UI/animations)
+- Vitest + fast-check (testing)
+- Vercel (frontend deployment)
+- GitHub Actions (CI/CD)
 
 ## Prerequisites
-
 - Node.js v22+
-- Docker Desktop (for proof server)
-- WSL (if on Windows — Compact compiler is Linux/Mac only)
-- Compact compiler: `curl --proto '=https' --tlsv1.2 -LsSf https://github.com/midnightntwrk/compact/releases/latest/download/compact-installer.sh | sh`
+- Lace wallet (browser extension)
+- Docker (for proof server, local development)
 
-## Setup
-
+## Setup & Run Locally
 ```bash
-# Clone the repo
 git clone https://github.com/Shibo326/Newmoon-Entry.git
 cd Newmoon-Entry
-git checkout dev1
-
-# Install dependencies
 npm install
 
-# Install Compact compiler (Linux/Mac/WSL)
-curl --proto '=https' --tlsv1.2 -LsSf https://github.com/midnightntwrk/compact/releases/latest/download/compact-installer.sh | sh
-source ~/.bashrc
-
-# Start the proof server
-docker run -p 6300:6300 midnightntwrk/proof-server:latest midnight-proof-server -v
-
-# Compile the contract
-compact compile
-
-# Deploy to Preview
-NODE_OPTIONS="--max-old-space-size=12288" npm run deploy -- --network preview
-```
-
-## Run Tests
-
-```bash
+# Run tests
 npm test
-```
 
-## Screenshots
-
-### Compile Output
-![Compile Output](src/compile-output.png)
-
-### Contract Deployed
-![Contract Deployed](src/contract-deployed.png)
-
-## Initial Idea
-
-NightScore is a privacy-preserving credit reputation layer for DeFi lending protocols on Midnight. Users build a credit score from their on-chain activity (wallet age, transaction frequency, DeFi interactions, repayment history, asset diversity, and liquidation events), then prove their creditworthiness to lenders via zero-knowledge threshold proofs — without revealing their actual score, wallet history, or financial behavior. A lending protocol asks "does this borrower have at least a BBB credit grade?" and gets a cryptographic yes/no — never the raw data. This enables under-collateralized lending while protecting user privacy.
-
-## File Structure
-
-```
-NightScore/
-├── contracts/
-│   └── nightscore.compact       ← Compact contract (ZK circuits)
-├── managed/                      ← Auto-generated by compact compile
-├── src/                          ← Agent architecture + screenshots
-│   ├── agents/                   ← 8 specialized agents
-│   ├── bus/                      ← Message bus
-│   ├── registry/                 ← Agent registry
-│   ├── compile-output.png        ← Screenshot: compile output
-│   └── contract-deployed.png     ← Screenshot: deployed contract
-├── tests/
-│   └── nightscore.test.ts       ← Contract test suite
-├── .github/
-│   └── workflows/               ← CI/CD (Level 3)
-├── README.md
-└── package.json
-```
-
-## Live Demo
-
-https://newmoon-entry-projects.vercel.app
-
-## Frontend
-
-The NightScore frontend is a React + Vite + TypeScript single-page application with a dark theme and glassmorphism UI. It demonstrates the ZK credit scoring flow with a mock provider (replace with real Midnight SDK when available).
-
-```bash
+# Run frontend locally
 cd frontend
 npm install
 npm run dev
 ```
 
-Build for production:
+## Run Tests
 ```bash
-cd frontend
-npm run build
+npm test
 ```
+14 tests across 4 suites: circuit logic, state transitions, privacy guarantees, threshold verification.
 
-Deploy to Vercel:
-```bash
-cd frontend
-npx vercel
-```
+## CI/CD
+GitHub Actions pipeline runs on every push to main/dev1:
+- Installs dependencies
+- Runs full test suite (14 tests)
+- Builds frontend (TypeScript check + Vite build)
 
-## Privacy Claim
+## Demo Video
+https://drive.google.com/drive/folders/1XGSac_jwkefbDrzCCsG440uhtcgLShX1?usp=sharing
 
-An on-chain observer can see the disclosed weighted score but CANNOT see the 6 raw wallet signals (walletAge, txFrequency, defiInteractions, repaymentHistory, assetDiversity, liquidationHistory). The user proves their creditworthiness via ZK proof without revealing any private data.
+## Product Proposal
+See PROPOSAL.md — NightScore implements **Confidential Credentials**: prove a credit credential is valid (meets minimum threshold) without disclosing the actual grade or underlying financial data.
 
-## License
+## Screenshots
+### Compile Output
+![Compile Output](src/compile-output.png)
 
-MIT
+### Contract Deployed
+![Contract Deployed](src/contract-deployed.png)
