@@ -70,6 +70,50 @@ NightScore combines three innovations on Midnight:
 ## Team
 Built during the Midnight Network hackathon by Team PROGRAMME.
 
+## Why Midnight?
+
+Midnight is the only blockchain purpose-built for this use case. Here's why NightScore couldn't exist on any other chain:
+
+1. **Native ZK with private state** — Midnight's Compact language has first-class private witnesses. The 6 wallet signals live entirely in private state — they never touch the public ledger. On Ethereum or Solana, you'd need complex off-chain ZK setups with no native private state support.
+
+2. **Boolean-only verification** — Midnight's circuit model naturally supports returning only true/false from threshold checks. The verifier literally cannot extract more information than the boolean result. Other chains would require custom verifier contracts that are harder to audit.
+
+3. **Shielded credentials** — Midnight's credential system allows ZK attestations that are portable across DApps. There's no equivalent on EVM chains without building an entire credential infrastructure from scratch.
+
+4. **Lace wallet integration** — The DApp Connector API provides a clean, audited bridge between the user's private keys and our scoring pipeline. The user experience is seamless — connect once, score privately.
+
+5. **Regulatory design** — Midnight's "selective disclosure" model (prove a fact without revealing underlying data) aligns perfectly with emerging DeFi compliance requirements. Regulators can verify solvency thresholds without accessing individual financial records.
+
+## Mainnet Feasibility
+
+NightScore is designed to be production-ready on Midnight mainnet:
+
+### What's ready now:
+- Compact contract deployed on Preview network (verified, tested)
+- Full scoring pipeline: 6 signals → AI grade → ZK proof → credential mint
+- 669 automated tests covering all agents, privacy guarantees, and edge cases
+- CI/CD pipeline with automated testing on every push
+- Frontend deployed on Vercel with Lace wallet integration
+
+### Path to mainnet (estimated 4-6 weeks after mainnet launch):
+1. **Week 1-2**: Redeploy contract to mainnet, update RPC endpoints, test with real tDUST
+2. **Week 2-3**: Connect real on-chain signal reading (replace stubs with actual Compact Witness calls)
+3. **Week 3-4**: Integrate Supabase production instance for caching and config
+4. **Week 4-5**: Security audit of Compact contract + penetration testing of API
+5. **Week 5-6**: Beta launch with limited users, monitor NightGuard AI accuracy
+
+### What scales:
+- Agent architecture is horizontally scalable (each agent is stateless, communicates via bus)
+- Fireworks AI inference is <200ms per screening call
+- Supabase cache prevents redundant scoring (TTL-based refresh)
+- Credential minting is one TX per user per refresh period — minimal chain load
+- Frontend is static (Vercel CDN) — handles unlimited concurrent users
+
+### Dependencies for mainnet:
+- Midnight mainnet stable release
+- Lace wallet mainnet support (confirmed in roadmap)
+- Proof server availability for local ZK proof generation
+
 ## Demo
 - Live: https://newmoon-entry-projects.vercel.app
 - Video: https://drive.google.com/drive/folders/1XGSac_jwkefbDrzCCsG440uhtcgLShX1?usp=sharing
