@@ -160,6 +160,9 @@ https://drive.google.com/drive/folders/1XGSac_jwkefbDrzCCsG440uhtcgLShX1?usp=sha
 See PROPOSAL.md — NightScore implements **Confidential Credentials** + **AI-Powered Security**: prove credit credentials are valid without disclosing data, while AI guards protect every transaction.
 
 ## Screenshots
+### Test Output (669 tests passing)
+![Test Output](src/test-output.png)
+
 ### Compile Output
 ![Compile Output](src/compile-output.png)
 
