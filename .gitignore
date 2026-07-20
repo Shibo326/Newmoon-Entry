@@ -2,5 +2,8 @@ node_modules/
 dist/
 coverage/
 *.log
+.env
+.env.local
+.env.*.local
 Newmoon-Entry/
 mn-demo/

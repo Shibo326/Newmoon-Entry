@@ -54,3 +54,13 @@ export type {
   AgentMetricsSnapshot,
   SystemHealthStatus,
 } from './monitor.js';
+
+export type {
+  RiskLevel,
+  RiskFactor,
+  SecurityAssessment,
+  TransactionRequest,
+  WalletContext,
+  FireworksClient,
+  GuardTopic,
+} from './guard.js';

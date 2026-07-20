@@ -195,6 +195,7 @@ NightScore is a privacy-preserving credit scoring system built on the Midnight b
 | Verification | Threshold queries (boolean only) | verify-threshold |
 | Cache | Supabase request cache with TTL | cache.check-cache, cache.store-result |
 | Monitor | Metrics, alerting, health checks | alert.*, learning.* |
+| Guard | Fireworks AI transaction security screening | guard.screen-transaction, guard.check-phishing, guard.assess-score-impact |
 
 ## Architecture Rules
 

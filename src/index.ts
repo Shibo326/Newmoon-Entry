@@ -2,7 +2,7 @@
  * System bootstrap and initialization entry point for NightScore Adaptive Agents.
  *
  * Creates all infrastructure (Message Bus, Agent Registry, Behavior Profile Store,
- * Adaptation Log), registers all 8 core agents with their default profiles and schemas,
+ * Adaptation Log), registers all 9 core agents with their default profiles and schemas,
  * loads Level Gate configuration, activates appropriate agents, and wires the
  * Monitor Agent to all bus events.
  *
@@ -24,6 +24,7 @@ import { VerificationAgent } from './agents/verification-agent.js';
 import { CacheAgent } from './agents/cache-agent.js';
 import { MonitorAgent } from './agents/monitor-agent.js';
 import { OrchestratorAgentImpl } from './agents/orchestrator-agent.js';
+import { GuardAgent } from './agents/guard-agent.js';
 
 import type { WalletConnector, SessionStorage } from './agents/wallet-agent.js';
 import type { CompactWitness } from './agents/signal-agent.js';
@@ -31,6 +32,7 @@ import type { GroqClient } from './agents/scoring-agent.js';
 import type { CompactContract } from './agents/credential-agent.js';
 import type { VerificationContract } from './agents/verification-agent.js';
 import type { CacheStore } from './agents/cache-agent.js';
+import type { FireworksClient } from './types/guard.js';
 import type { BehaviorProfile } from './types/config.js';
 import type { JSONSchema, LevelGate } from './types/registry.js';
 
@@ -147,6 +149,21 @@ const stubCacheStore: CacheStore = (() => {
   };
 })();
 
+/**
+ * Stub FireworksClient that returns a safe default assessment.
+ */
+const stubFireworksClient: FireworksClient = {
+  async analyze(_prompt: string, _systemPrompt: string) {
+    return JSON.stringify({
+      overallRisk: 'low',
+      riskScore: 15,
+      factors: [],
+      recommendation: 'proceed',
+      summary: 'No risks detected in stub mode',
+    });
+  },
+};
+
 // ─── Default Behavior Profiles ─────────────────────────────────────────────────
 
 const DEFAULT_PROFILES: Record<string, BehaviorProfile> = {
@@ -234,6 +251,16 @@ const DEFAULT_PROFILES: Record<string, BehaviorProfile> = {
     },
     lastModified: Date.now(),
   },
+  'guard-agent': {
+    agentId: 'guard-agent',
+    version: 1,
+    parameters: {
+      modelId: 'accounts/fireworks/models/llama-v3p1-8b-instruct',
+      maxTokens: 512,
+      temperature: 0.1,
+    },
+    lastModified: Date.now(),
+  },
 };
 
 // ─── Default JSON Schemas (permissive — accepts any parameters) ────────────────
@@ -262,6 +289,7 @@ export interface BootstrapOptions {
   compactContract?: CompactContract;
   verificationContract?: VerificationContract;
   cacheStore?: CacheStore;
+  fireworksClient?: FireworksClient;
 }
 
 // ─── Bootstrap ─────────────────────────────────────────────────────────────────
@@ -269,7 +297,7 @@ export interface BootstrapOptions {
 /**
  * Bootstrap the NightScore adaptive agents system.
  *
- * Creates all infrastructure, registers all 8 core agents with default profiles,
+ * Creates all infrastructure, registers all 9 core agents with default profiles,
  * initializes agents, sets the level gate, activates appropriate agents, and
  * wires the Monitor Agent's subscriptions to all bus events.
  *
@@ -294,7 +322,7 @@ export async function bootstrap(options?: BootstrapOptions): Promise<NightScoreS
   // 2. Wire bus agent state provider for message buffering
   bus.setAgentStateProvider((id) => registry.getAgentState(id));
 
-  // 3. Create all 8 core agents with provided or stub dependencies
+  // 3. Create all 9 core agents with provided or stub dependencies
   const walletAgent = new WalletAgent(
     bus,
     opts.walletConnector ?? stubWalletConnector,
@@ -334,6 +362,8 @@ export async function bootstrap(options?: BootstrapOptions): Promise<NightScoreS
 
   const orchestratorAgent = new OrchestratorAgentImpl(bus);
 
+  const guardAgent = new GuardAgent(bus, opts.fireworksClient ?? stubFireworksClient);
+
   // 4. Seed default profiles into the profile store and register schemas
   const agents = [
     walletAgent,
@@ -344,6 +374,7 @@ export async function bootstrap(options?: BootstrapOptions): Promise<NightScoreS
     cacheAgent,
     monitorAgent,
     orchestratorAgent,
+    guardAgent,
   ];
 
   for (const agent of agents) {
@@ -352,7 +383,7 @@ export async function bootstrap(options?: BootstrapOptions): Promise<NightScoreS
     profileStore.registerSchema(agent.id, DEFAULT_SCHEMA);
   }
 
-  // 5. Register all 8 agents with the registry
+  // 5. Register all 9 agents with the registry
   for (const agent of agents) {
     const profile = DEFAULT_PROFILES[agent.id]!;
     await registry.register(agent, profile, DEFAULT_SCHEMA);
@@ -416,4 +447,5 @@ export { VerificationAgent } from './agents/verification-agent.js';
 export { CacheAgent } from './agents/cache-agent.js';
 export { MonitorAgent } from './agents/monitor-agent.js';
 export { OrchestratorAgentImpl } from './agents/orchestrator-agent.js';
+export { GuardAgent } from './agents/guard-agent.js';
 export { DEFAULT_PROFILES };
