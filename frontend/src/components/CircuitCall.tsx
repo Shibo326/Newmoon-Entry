@@ -8,6 +8,16 @@ import type { CircuitResult } from '../services/midnight-provider';
 
 const CONTRACT_ADDRESS = 'a3e01772c31935fc25719d878514b2bb1b64198c65b4862dd9fcb6888173af71';
 
+function getNetworkLabel(network: string | null, isReal: boolean): { label: string; color: string } {
+  if (!isReal) return { label: 'Demo Mode', color: 'amber' };
+  switch (network) {
+    case 'preprod': return { label: 'Preprod', color: 'green' };
+    case 'preview': return { label: 'Preview', color: 'blue' };
+    case 'mainnet': return { label: 'Mainnet', color: 'purple' };
+    default: return { label: 'Local Devnet', color: 'cyan' };
+  }
+}
+
 interface SignalInput {
   label: string;
   key: string;
@@ -54,7 +64,8 @@ function NumberTicker({ value, duration = 1.2 }: { value: number; duration?: num
 }
 
 export function CircuitCall() {
-  const { callCircuit, isLoading, error } = useMidnight();
+  const { callCircuit, isLoading, error, isRealWallet, network } = useMidnight();
+  const networkInfo = getNetworkLabel(network, isRealWallet);
   const [inputs, setInputs] = useState<Record<string, number>>({
     walletAge: 120,
     txFrequency: 85,
@@ -93,10 +104,18 @@ export function CircuitCall() {
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      {/* Demo Mode Banner */}
+      {/* Network Mode Banner */}
       <FadeInSection delay={0}>
-        <div className="mb-6 px-4 py-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-sm text-center">
-          🔧 Demo Mode — Connect to Midnight Preprod for live proofs
+        <div className={`mb-6 px-4 py-3 rounded-xl text-sm text-center ${
+          isRealWallet
+            ? 'bg-green-500/10 border border-green-500/30 text-green-300'
+            : 'bg-amber-500/10 border border-amber-500/30 text-amber-300'
+        }`}>
+          {isRealWallet ? (
+            <>🔗 Connected to Midnight {networkInfo.label} via Lace</>
+          ) : (
+            <>🔧 {networkInfo.label} — Connect Lace wallet for live proofs</>
+          )}
         </div>
       </FadeInSection>
 
@@ -111,7 +130,7 @@ export function CircuitCall() {
       <FadeInSection delay={0.1}>
         <AnimatedCard className="mb-6" delay={0.1}>
           <div className="flex items-center justify-between">
-            <span className="text-xs text-night-muted">Contract (Preview)</span>
+            <span className="text-xs text-night-muted">Contract ({networkInfo.label})</span>
             <span className="text-xs font-mono text-night-muted/70 truncate ml-2">
               {CONTRACT_ADDRESS.slice(0, 16)}...{CONTRACT_ADDRESS.slice(-8)}
             </span>
@@ -233,7 +252,9 @@ export function CircuitCall() {
             >
               <span className="text-green-400">✓</span>
               <span className="text-green-300 text-sm">
-                Proved without revealing your private signals
+                {result.onChain
+                  ? 'Proved and submitted on-chain via ZK proof'
+                  : 'Proved without revealing your private signals'}
               </span>
             </motion.div>
 

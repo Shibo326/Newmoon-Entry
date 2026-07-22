@@ -1,9 +1,10 @@
 import { useState, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ShieldCheck, Zap, Moon } from 'lucide-react';
+import { ShieldCheck, Fingerprint, Moon } from 'lucide-react';
 import { Layout } from './components/Layout';
 import { WalletConnect } from './components/WalletConnect';
 import { CircuitCall } from './components/CircuitCall';
+import { ThresholdVerify } from './components/ThresholdVerify';
 import { AnimatedCard } from './components/AnimatedCard';
 import { LoadingScreen } from './components/LoadingScreen';
 import { useMidnight } from './hooks/useMidnight';
@@ -32,6 +33,7 @@ export default function App() {
             transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             <CircuitCall />
+            <ThresholdVerify />
           </motion.div>
         ) : (
           <motion.div
@@ -98,7 +100,7 @@ function HeroSection() {
         <AnimatedCard delay={0.65}>
           <div className="text-center p-2">
             <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-              <Zap className="w-6 h-6 text-amber-400" strokeWidth={1.5} />
+              <Fingerprint className="w-6 h-6 text-amber-400" strokeWidth={1.5} />
             </div>
             <h3 className="text-sm font-semibold text-night-text mb-1.5">On-Chain Proof</h3>
             <p className="text-xs text-night-muted leading-relaxed">Score verified cryptographically without exposing raw data</p>

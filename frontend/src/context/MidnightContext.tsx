@@ -4,7 +4,11 @@ import {
   disconnectWallet,
   getStoredWalletState,
   callComputeScore,
+  callVerifyThreshold,
+  readContractState,
   type CircuitResult,
+  type ThresholdResult,
+  type ContractLedgerState,
 } from '../services/midnight-provider';
 
 interface MidnightContextValue {
@@ -12,6 +16,9 @@ interface MidnightContextValue {
   isConnected: boolean;
   isLoading: boolean;
   error: string | null;
+  isRealWallet: boolean;
+  network: string | null;
+  contractState: ContractLedgerState | null;
   connect: () => Promise<void>;
   disconnect: () => void;
   callCircuit: (inputs: {
@@ -22,6 +29,8 @@ interface MidnightContextValue {
     assetDiversity: number;
     liquidationHistory: number;
   }) => Promise<CircuitResult>;
+  verifyThreshold: (actualScore: number, minimumScore: number) => Promise<ThresholdResult>;
+  refreshContractState: () => Promise<void>;
 }
 
 const MidnightContext = createContext<MidnightContextValue | null>(null);
@@ -31,6 +40,9 @@ export function MidnightProvider({ children }: { children: ReactNode }) {
   const [isConnected, setIsConnected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isRealWallet, setIsRealWallet] = useState(false);
+  const [network, setNetwork] = useState<string | null>(null);
+  const [contractState, setContractState] = useState<ContractLedgerState | null>(null);
 
   // Restore session on mount
   useEffect(() => {
@@ -38,15 +50,25 @@ export function MidnightProvider({ children }: { children: ReactNode }) {
     if (stored && stored.isConnected) {
       setAddress(stored.address);
       setIsConnected(true);
+      setIsRealWallet(stored.isRealWallet);
+      setNetwork(stored.network);
     }
   }, []);
+
+  // Fetch contract state when connected
+  useEffect(() => {
+    if (isConnected) {
+      readContractState().then((state) => {
+        if (state) setContractState(state);
+      });
+    }
+  }, [isConnected]);
 
   const connect = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
     try {
-      // 30s timeout
       const timeoutPromise = new Promise<never>((_, reject) =>
         setTimeout(() => reject(new Error('CONNECTION_TIMEOUT')), 30000)
       );
@@ -54,6 +76,8 @@ export function MidnightProvider({ children }: { children: ReactNode }) {
       const state = await Promise.race([connectWallet(), timeoutPromise]);
       setAddress(state.address);
       setIsConnected(true);
+      setIsRealWallet(state.isRealWallet);
+      setNetwork(state.network);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unknown error';
 
@@ -75,6 +99,9 @@ export function MidnightProvider({ children }: { children: ReactNode }) {
     disconnectWallet();
     setAddress(null);
     setIsConnected(false);
+    setIsRealWallet(false);
+    setNetwork(null);
+    setContractState(null);
     setError(null);
   }, []);
 
@@ -92,6 +119,9 @@ export function MidnightProvider({ children }: { children: ReactNode }) {
 
       try {
         const result = await callComputeScore(inputs);
+        // Refresh contract state after successful circuit call
+        const newState = await readContractState();
+        if (newState) setContractState(newState);
         return result;
       } catch (err) {
         const message = err instanceof Error ? err.message : 'Circuit call failed';
@@ -104,9 +134,46 @@ export function MidnightProvider({ children }: { children: ReactNode }) {
     []
   );
 
+  const verifyThreshold = useCallback(
+    async (actualScore: number, minimumScore: number): Promise<ThresholdResult> => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const result = await callVerifyThreshold(actualScore, minimumScore);
+        return result;
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'Verification failed';
+        setError(message);
+        throw err;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
+
+  const refreshContractState = useCallback(async () => {
+    const state = await readContractState();
+    if (state) setContractState(state);
+  }, []);
+
   return (
     <MidnightContext.Provider
-      value={{ address, isConnected, isLoading, error, connect, disconnect, callCircuit }}
+      value={{
+        address,
+        isConnected,
+        isLoading,
+        error,
+        isRealWallet,
+        network,
+        contractState,
+        connect,
+        disconnect,
+        callCircuit,
+        verifyThreshold,
+        refreshContractState,
+      }}
     >
       {children}
     </MidnightContext.Provider>
