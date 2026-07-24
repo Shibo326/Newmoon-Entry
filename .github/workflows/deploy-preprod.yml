@@ -1,0 +1,76 @@
+# Deploy NightScore contract to Midnight Preprod
+# 
+# This workflow deploys from a GitHub Actions runner (has Docker) for
+# environments where local Docker is unavailable.
+#
+# Prerequisites:
+#   1. Set MIDNIGHT_WALLET_SEED secret in repo settings (64-char hex)
+#   2. Fund the wallet address via faucet BEFORE running this workflow
+#
+# To get the wallet address:
+#   cd deploy && npm install && npx tsx src/check-balance.ts
+#   (uses the same seed to derive the address)
+#
+# Trigger: manual (workflow_dispatch)
+name: Deploy to Preprod
+
+on:
+  workflow_dispatch:
+    inputs:
+      network:
+        description: 'Target network'
+        required: true
+        default: 'preprod'
+        type: choice
+        options:
+          - preprod
+          - preview
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        working-directory: deploy
+        run: npm install
+
+      - name: Start proof server
+        run: |
+          docker run -d --name proof-server -p 6300:6300 midnightntwrk/proof-server:8.0.3 "midnight-proof-server -v"
+          echo "Waiting for proof server..."
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:6300 > /dev/null 2>&1; then
+              echo "Proof server ready!"
+              break
+            fi
+            sleep 2
+          done
+
+      - name: Deploy contract
+        working-directory: deploy
+        env:
+          MIDNIGHT_WALLET_SEED: ${{ secrets.MIDNIGHT_WALLET_SEED }}
+          MIDNIGHT_PROOF_SERVER_URL: http://127.0.0.1:6300
+          MIDNIGHT_FAUCET_TIMEOUT_MS: '0'
+        run: npx tsx src/deploy.ts --network ${{ inputs.network }}
+
+      - name: Show deployment result
+        working-directory: deploy
+        run: |
+          echo "=== Deployment State ==="
+          cat .midnight-state.json
+          echo ""
+          echo "=== Update README.md with the contract address above ==="
+
+      - name: Upload state file
+        uses: actions/upload-artifact@v4
+        with:
+          name: midnight-state
+          path: deploy/.midnight-state.json

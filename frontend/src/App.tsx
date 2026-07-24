@@ -5,12 +5,13 @@ import { Layout } from './components/Layout';
 import { WalletConnect } from './components/WalletConnect';
 import { CircuitCall } from './components/CircuitCall';
 import { ThresholdVerify } from './components/ThresholdVerify';
+import { FeedbackForm } from './components/FeedbackForm';
 import { AnimatedCard } from './components/AnimatedCard';
 import { LoadingScreen } from './components/LoadingScreen';
 import { useMidnight } from './hooks/useMidnight';
 
 export default function App() {
-  const { isConnected } = useMidnight();
+  const { isConnected, address } = useMidnight();
   const [isLoading, setIsLoading] = useState(true);
 
   const handleLoadingComplete = useCallback(() => {
@@ -34,6 +35,7 @@ export default function App() {
           >
             <CircuitCall />
             <ThresholdVerify />
+            <FeedbackForm walletAddress={address} />
           </motion.div>
         ) : (
           <motion.div

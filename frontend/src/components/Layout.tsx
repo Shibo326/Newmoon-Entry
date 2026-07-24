@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Moon, BookOpen, Code2 } from 'lucide-react';
+import { BookOpen, Code2 } from 'lucide-react';
 import { WalletConnect } from './WalletConnect';
 import { ConstellationBackground } from './ConstellationBackground';
 import { FlowingWires } from './FlowingWires';
@@ -26,7 +26,7 @@ export function Layout({ children }: LayoutProps) {
               whileHover={{ scale: 1.02 }}
               transition={{ type: 'spring', stiffness: 300 }}
             >
-              <img src="/logo-nobg.png" alt="NightScore" className="w-8 h-8 rounded-lg" />
+              <img src="/logo.svg" alt="NightScore" className="w-8 h-8" />
               <span className="text-xl font-bold bg-gradient-to-r from-night-accent via-purple-300 to-amber-300 bg-clip-text text-transparent">
                 NightScore
               </span>
@@ -61,7 +61,7 @@ export function Layout({ children }: LayoutProps) {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <Moon className="w-4 h-4 text-night-accent/60" strokeWidth={1.5} />
+              <img src="/logo.svg" alt="NightScore" className="w-4 h-4" />
               <span className="text-sm font-semibold bg-gradient-to-r from-night-accent to-purple-300 bg-clip-text text-transparent">
                 NightScore
               </span>
