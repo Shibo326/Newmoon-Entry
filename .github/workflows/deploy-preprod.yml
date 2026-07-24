@@ -48,11 +48,10 @@ jobs:
 
       - name: Add swap space for wallet sync
         run: |
-          sudo fallocate -l 8G /swapfile
+          sudo dd if=/dev/zero of=/swapfile bs=1M count=4096 status=progress
           sudo chmod 600 /swapfile
           sudo mkswap /swapfile
           sudo swapon /swapfile
-          echo "Swap enabled: 8GB"
           free -h
 
       - name: Start proof server
@@ -73,7 +72,7 @@ jobs:
           MIDNIGHT_WALLET_SEED: ${{ secrets.MIDNIGHT_WALLET_SEED }}
           MIDNIGHT_PROOF_SERVER_URL: http://127.0.0.1:6300
           MIDNIGHT_FAUCET_TIMEOUT_MS: '0'
-          NODE_OPTIONS: '--max-old-space-size=12288'
+          NODE_OPTIONS: '--max-old-space-size=8192'
         run: npx tsx src/deploy.ts --network ${{ inputs.network }}
 
       - name: Show deployment result
