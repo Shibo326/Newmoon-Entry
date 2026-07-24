@@ -64,7 +64,7 @@ jobs:
           MIDNIGHT_WALLET_SEED: ${{ secrets.MIDNIGHT_WALLET_SEED }}
           MIDNIGHT_PROOF_SERVER_URL: http://127.0.0.1:6300
           MIDNIGHT_FAUCET_TIMEOUT_MS: '0'
-          NODE_OPTIONS: '--max-old-space-size=6144'
+          NODE_OPTIONS: '--max-old-space-size=12288'
         run: npx tsx src/deploy.ts --network ${{ inputs.network }}
 
       - name: Show deployment result
