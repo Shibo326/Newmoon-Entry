@@ -41,6 +41,11 @@ jobs:
         working-directory: deploy
         run: npm install
 
+      - name: Link managed contract dependencies
+        run: |
+          cd managed
+          ln -s ../deploy/node_modules node_modules
+
       - name: Start proof server
         run: |
           docker run -d --name proof-server -p 6300:6300 midnightntwrk/proof-server:8.0.3 "midnight-proof-server -v"
