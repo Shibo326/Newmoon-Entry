@@ -46,6 +46,15 @@ jobs:
           cd managed
           ln -s ../deploy/node_modules node_modules
 
+      - name: Add swap space for wallet sync
+        run: |
+          sudo fallocate -l 8G /swapfile
+          sudo chmod 600 /swapfile
+          sudo mkswap /swapfile
+          sudo swapon /swapfile
+          echo "Swap enabled: 8GB"
+          free -h
+
       - name: Start proof server
         run: |
           docker run -d --name proof-server -p 6300:6300 midnightntwrk/proof-server:8.0.3 "midnight-proof-server -v"
